@@ -40,6 +40,14 @@
 * Hvilket sprog i har valgt. Brug hvad i føler jeg mest komfortabel med. Skal dog nævnes at hvis i vil rode med machine learning, så er Python bestemt. 
 * Kompleksiteten af metoderne. Det vigtigste er at metoderne er relevante og bidrager til løsningen.
 
+---
+
+## Liste og forklaring af typer af teknikker
+
+* Til inspiration
+* [https://opencv.org/blog/top-computer-vision-projects/](https://opencv.org/blog/top-computer-vision-projects/)
+* Disse teknikker kan alle danne grundlag for jeres use case
+
 ## Object recognition/detection
 
 ![Object recognition](recognition.png)
