@@ -27,11 +27,10 @@ def compareEdges(filteredImg):
 
 
 def compareThresholds(blurred_grayimg):
-    ret, th1 = cv2.threshold(blurred_grayimg, 100, 200, cv2.THRESH_BINARY)
-    th2 = cv2.adaptiveThreshold(blurred_grayimg, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
-    th3 = cv2.adaptiveThreshold(blurred_grayimg, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
-    
-    titles = ["Original", "Global", "Adaptive", "Gaussian"]
+    th1 = cv2.adaptiveThreshold(blurred_grayimg, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+    th2 = cv2.adaptiveThreshold(blurred_grayimg, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    _, th3 = cv2.threshold(blurred_grayimg, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)    
+    titles = ["Original", "Otsu", "Adaptive", "Gaussian"]
     images = [blurred_grayimg, th1, th2, th3]
 
     for i in range(len(images)):
