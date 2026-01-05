@@ -42,5 +42,4 @@
 *.jpg
 
 # ML models
-*.tar
-*.gz
+*.tar.gz
