@@ -39,6 +39,11 @@
 
 # debug information files
 *.dwo
+
+
+*.venv
+temp
+
 *.jpg
 *.png
 *.jpeg
