@@ -8,10 +8,6 @@ grayComparison = cv2.imread("../images/stop4.jpg", 0)
 
 # Background subtraction: https://docs.opencv.org/4.x/d1/dc5/tutorial_background_subtraction.html
 
-
-bgr = cv2.imread("../images/zebra.jpg")
-hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
-
 # Ikke nødvendigt i keypoint detection
 gauss = cv2.GaussianBlur(gray, (11, 11), 0)
 bilat = cv2.bilateralFilter(gray, 11, sigmaColor=75, sigmaSpace=75)
