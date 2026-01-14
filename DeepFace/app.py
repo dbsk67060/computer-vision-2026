@@ -1,0 +1,87 @@
+import streamlit as st
+import cv2
+import numpy as np
+
+import verify_face
+import verify_webcam_multiface
+import verify_webcam_multiplayer
+
+# -------------------------
+# SESSION STATE
+# -------------------------
+if "screenshot" not in st.session_state:
+    st.session_state["screenshot"] = None
+
+st.set_page_config(layout="wide")
+st.title("Face Recognition – Intern Demo")
+
+# -------------------------
+# WEBCAM
+# -------------------------
+cap = cv2.VideoCapture(0)
+
+# -------------------------
+# LAYOUT
+# -------------------------
+col1, col2, col3 = st.columns(3)
+feed1 = col1.empty()
+feed2 = col2.empty()
+feed3 = col3.empty()
+
+st.divider()
+st.subheader("Screenshot & billedanalyse")
+
+btn = st.button("Tag screenshot og analyser billede")
+
+a1, a2, a3, a4 = st.columns(4)
+orig_view = a1.empty()
+blur_view = a2.empty()
+hsv_view  = a3.empty()
+gray_view = a4.empty()
+
+# -------------------------
+# LOOP (bevares)
+# -------------------------
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    frame = cv2.resize(frame, (640, 480))
+    last_frame = frame.copy()
+
+    # --- jeres eksisterende pipelines ---
+    f1 = verify_face.process_frame(frame.copy())
+    f2 = verify_webcam_multiface.process_frame(frame.copy())
+    f3 = verify_webcam_multiplayer.process_frame(frame.copy())
+
+    feed1.image(cv2.cvtColor(f1, cv2.COLOR_BGR2RGB), caption="Daniel vs Others")
+    feed2.image(cv2.cvtColor(f2, cv2.COLOR_BGR2RGB), caption="Multi-face")
+    feed3.image(cv2.cvtColor(f3, cv2.COLOR_BGR2RGB), caption="Multi-player")
+
+    # -------------------------
+    # TAG SCREENSHOT (ÉN GANG)
+    # -------------------------
+    if btn:
+            st.session_state["screenshot"] = last_frame.copy()
+
+    # -------------------------
+    # ANALYSE (KUN FRA CACHE)
+    # -------------------------
+    if st.session_state["screenshot"] is not None:
+        img = st.session_state["screenshot"]
+
+        blur = cv2.GaussianBlur(img, (15, 15), 0)
+        hsv  = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        orig_view.image(
+            cv2.cvtColor(img, cv2.COLOR_BGR2RGB),
+            caption="Original (screenshot)"
+        )
+        blur_view.image(
+            cv2.cvtColor(blur, cv2.COLOR_BGR2RGB),
+            caption="Blur"
+        )
+        hsv_view.image(hsv, caption="HSV")
+        gray_view.image(gray, caption="Gray")

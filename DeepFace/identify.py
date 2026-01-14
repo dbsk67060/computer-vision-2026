@@ -10,7 +10,7 @@ from similarity import compare_to_set
 MATCH_THRESHOLD = 0.68
 
 def identify_person(embedding, database):
-    best_name = "Skyd"
+    best_name = "UKENDT"
     best_score = 0.0
 
     for name, reference_set in database.items():
@@ -21,6 +21,6 @@ def identify_person(embedding, database):
             best_name = name
 
     if best_score < MATCH_THRESHOLD:
-        return "Skyd", best_score
+        return "UKENDT", best_score
 
     return best_name, best_score

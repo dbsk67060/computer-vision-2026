@@ -1,51 +1,63 @@
-from deepface import DeepFace
+import cv2
 import numpy as np
-import os
-from similarity import compare_to_set
+from deepface import DeepFace
+from identify import identify_person
+from input_embeddings import load_all_embeddings
 
-# --- KONFIGURATION ---
-OTHERS_DIR = "data/others"
-REFERENCE_PATH = "embeddings/me.npy"
+# --- LOAD DATABASE ---
+_db_all = load_all_embeddings("embeddings")
+_db_daniel = {"Daniel": _db_all["Daniel"]}
 
-MATCH_THR = 0.68
-UNCERTAIN_THR = 0.55
+# intern cache
+_last_faces = []
+_frame_count = 0
 
-# --- LOAD REFERENCE ---
-reference_embeddings = np.load(REFERENCE_PATH)
 
-results = []
+def process_frame(frame):
+    """
+    Tager ét BGR-frame (OpenCV)
+    Returnerer annoteret BGR-frame
+    """
+    global _last_faces, _frame_count
 
-# --- LOOP GENNEM ALLE ANDRE ---
-for file in os.listdir(OTHERS_DIR):
-    path = os.path.join(OTHERS_DIR, file)
+    _frame_count += 1
 
-    try:
-        result = DeepFace.represent(
-            img_path=path,
-            model_name="ArcFace",
-            detector_backend="retinaface",
-            enforce_detection=True
+    # Kør face detection + embedding hver 5. frame
+    if _frame_count % 5 == 0:
+        try:
+            _last_faces = DeepFace.represent(
+                img_path=frame,
+                model_name="ArcFace",
+                detector_backend="opencv",
+                enforce_detection=False
+            )
+        except Exception:
+            _last_faces = []
+
+    # Tegn resultater på frame
+    for face in _last_faces:
+        emb = np.array(face["embedding"])
+        r = face["facial_area"]
+
+        name, score = identify_person(emb, _db_daniel)
+
+        # Farve: Daniel = grøn, UKENDT = rød
+        if name == "UKENDT":
+            color = (0, 0, 255)
+        else:
+            color = (0, 255, 0)
+
+        x, y, w, h = r["x"], r["y"], r["w"], r["h"]
+
+        cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+        cv2.putText(
+            frame,
+            f"{name} ({score:.2f})",
+            (x, y - 10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            color,
+            2
         )
 
-        unknown_emb = np.array(result[0]["embedding"])
-        score = compare_to_set(unknown_emb, reference_embeddings)
-
-        if score >= MATCH_THR:
-            verdict = "MATCH"
-        elif score >= UNCERTAIN_THR:
-            verdict = "USIKKER"
-        else:
-            verdict = "NO MATCH"
-
-        results.append((file, score, verdict))
-
-    except Exception as e:
-        results.append((file, None, "FEJL"))
-
-# --- OUTPUT ---
-print(f"{'FIL':30}  SCORE     RESULTAT")
-print("-" * 55)
-
-for file, score, verdict in results:
-    score_str = f"{score:.3f}" if score is not None else "N/A"
-    print(f"{file:30}  {score_str:7}   {verdict}")
+    return frame
