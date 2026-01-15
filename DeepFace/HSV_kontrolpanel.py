@@ -9,7 +9,7 @@ if "screenshot" in st.session_state:
     bgr = cv2.resize(bgr, (400, 600))
     hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
 
-    # --- SLIDERS (erstatter trackbars) ---
+    # --- SLIDERS  ---
     col1, col2 = st.columns(2)
 
     with col1:

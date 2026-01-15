@@ -48,6 +48,8 @@ while True:
     f2 = verify_webcam_multiface.process_frame(frame.copy())
     f3 = verify_webcam_multiplayer.process_frame(frame.copy())
 
+    break
+
     feed1.image(cv2.cvtColor(f1, cv2.COLOR_BGR2RGB), caption="Daniel vs Others")
     feed2.image(cv2.cvtColor(f2, cv2.COLOR_BGR2RGB), caption="Multi-face")
     feed3.image(cv2.cvtColor(f3, cv2.COLOR_BGR2RGB), caption="Multi-player")
