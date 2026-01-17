@@ -7,7 +7,7 @@ from similarity import compare_to_set
 #| FaceNet512 | ~0.75 |
 
 
-MATCH_THRESHOLD = 0.68
+MATCH_THRESHOLD = 0.64
 
 def identify_person(embedding, database):
     best_name = "UKENDT"

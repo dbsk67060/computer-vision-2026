@@ -12,7 +12,7 @@ os.makedirs(CROP_DIR, exist_ok=True)
 
 for person in os.listdir(DATA_DIR):
     person_dir = os.path.join(DATA_DIR, person)
-    if not os.path.isdir(person_dir):
+    if not os.path.isdir(person_dir): 
         continue
 
     print(f"Behandler {person}")

@@ -1,0 +1,20 @@
+embeddings {
+  tensor_name: "Daniel_embeddings:00000"
+  metadata_path: "00000/Daniel_embeddings\\metadata.tsv"
+  tensor_path: "00000/Daniel_embeddings\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "Lex_embeddings:00000"
+  metadata_path: "00000/Lex_embeddings\\metadata.tsv"
+  tensor_path: "00000/Lex_embeddings\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "Magnus_embeddings:00000"
+  metadata_path: "00000/Magnus_embeddings\\metadata.tsv"
+  tensor_path: "00000/Magnus_embeddings\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "Sebastian_embeddings:00000"
+  metadata_path: "00000/Sebastian_embeddings\\metadata.tsv"
+  tensor_path: "00000/Sebastian_embeddings\\tensors.tsv"
+}
