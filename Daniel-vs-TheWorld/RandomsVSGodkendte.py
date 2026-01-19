@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 # --------------------
 BATCH_SIZE = 8
 IMAGE_SIZE = 64
-EPOCHS = 5
+EPOCHS = 12
 DATA_DIR = "data/RandomsVSGodkendte"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

@@ -5,7 +5,7 @@ import cv2
 
 DATA_DIR = "data"
 OUT_DIR = "embeddings"
-CROP_DIR = "cropped_faces"
+CROP_DIR = "cropped_faces\Karla"
 
 os.makedirs(OUT_DIR, exist_ok=True)
 os.makedirs(CROP_DIR, exist_ok=True)
