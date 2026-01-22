@@ -35,19 +35,16 @@ train_dataset = datasets.ImageFolder(
     root=f"{DATA_DIR}/train",
     transform=transform
 )
-
 val_dataset = datasets.ImageFolder(
     root=f"{DATA_DIR}/val",
     transform=transform
 )
-
 train_loader = DataLoader(
     train_dataset,
     batch_size=BATCH_SIZE,
     shuffle=True,
     num_workers=0   # vigtigt på Windows
 )
-
 val_loader = DataLoader(
     val_dataset,
     batch_size=BATCH_SIZE,
